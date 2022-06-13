@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using API.Middleware;
 using Application.Core;
+using Application.Currency;
 using Domain.Interfaces;
 using FluentValidation.AspNetCore;
 using Infrastructure.Config;
@@ -36,14 +37,18 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AmountConfiguration>(_config.GetSection("AmountConfiguration"));
-            
-            
+            services.AddAutoMapper(typeof(MappingProfiles));
+            services.AddControllers().AddFluentValidation(config =>
+            {
+                config.RegisterValidatorsFromAssemblyContaining<Create>();
+            });
             services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
             });
-        
+            services.AddMediatR(typeof(Create.Handler).Assembly);
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
             services.AddScoped(typeof(IRepository<>), (typeof(Repository<>)));
             services.AddSwaggerGen(c =>
             {
