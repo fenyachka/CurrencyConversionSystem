@@ -8,6 +8,8 @@ namespace API.Controllers
     /// <summary>
     ///  BaseApiController
     /// </summary>
+    [ApiController]
+    [Route("api/[controller]")]
     public class BaseApiController : ControllerBase
     {
         private IMediator _mediator;

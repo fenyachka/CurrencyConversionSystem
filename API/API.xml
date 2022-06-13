@@ -20,7 +20,7 @@
              </summary>
              <param name="id">Id</param>
              <param name="code">Code</param>
-             <param name="NameGeo">NameGeo</param>
+             <param name="nameGeo">NameGeo</param>
              <param name="nameLat">NameLat</param>
              <remarks>
              Sample response:
