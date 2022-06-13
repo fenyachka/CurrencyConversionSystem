@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>API</name>
+    </assembly>
+    <members>
+        <member name="T:API.Controllers.BaseApiController">
+            <summary>
+             BaseApiController
+            </summary>
+        </member>
+        <member name="T:API.Controllers.CurrencyController">
+            <summary>
+            Currency Controller
+            </summary>
+        </member>
+        <member name="M:API.Controllers.CurrencyController.GetCurrencies">
+             <summary>
+             Get list of currency.
+             </summary>
+             <param name="id">Id</param>
+             <param name="code">Code</param>
+             <param name="NameGeo">NameGeo</param>
+             <param name="nameLat">NameLat</param>
+             <remarks>
+             Sample response:
+                 [
+                     {
+                         "id": 1,
+                         "code": "GEL",
+                         "nameGeo": "ლარი",
+                         "nameLat": "Lari"
+                     },
+                 ]
+            
+             </remarks>
+             <response code="200">Returns List of currencies</response>
+        </member>
+        <member name="M:API.Controllers.CurrencyController.CreateCurrency(Application.Currency.DTO.CreateCurrencyDto)">
+             <summary>
+             Creates a currency.
+             </summary>
+             <param name="item"></param>
+             <remarks>
+             Sample request:
+            
+                 POST /currency
+                 {
+                    "code": GEL,
+                    "nameGeo": "ლარი",
+                    "nameLat": "Lari"
+                 }
+            
+             </remarks>
+             <response code="200">Returns Success</response>
+             <response code="400">Currency with same Code already exist</response>
+             <response code="400">Failed to create currency</response>
+        </member>
+        <member name="M:API.Controllers.CurrencyController.GetCurrencyRate(System.String)">
+            <summary>
+            Get currency rate
+            </summary>
+            <param name="code">Currency Code</param>
+            <returns/>Last updated currency rate object/returns>
+            <response code="200">Returns Success, Currency Rate object</response>
+            <response code="400">If the item is null, returns Failure object with message</response>
+        </member>
+        <member name="M:API.Controllers.CurrencyController.CreateCurrencyRate(Application.CurrencyRate.DTO.CreateCurrencyRateDto)">
+             <summary>
+             Creates a currency rate.
+             </summary>
+             <param name="currencyId">currencyId</param>
+             <param name="buy">buy</param>
+             <param name="sell">sell</param>
+             <remarks>
+             Sample request:
+            
+                 POST /rate
+                 {
+                    "currencyId": 2,
+                    "buy": "3.12",
+                    "sell": "3.10"
+                 }
+            
+             </remarks>
+             <response code="200">Returns Success</response>
+             <response code="400">Currency Rate already exist.</response>
+        </member>
+        <member name="M:API.Controllers.CurrencyController.GetExchangeRate(Application.CurrencyRate.DTO.ExchangeRateDto)">
+            <summary>
+            Get exchange rate
+            </summary>
+            <param name="from">From Currency</param>
+            <param name="to">To Currency</param>
+            <param name="amount">Amount From</param>
+            <returns/>Last updated currency rate object/returns>
+            <response code="200">Returns CurrencyRateWithAmount object</response>
+            <response code="400">If the item is null, returns Failure object with message</response>
+        </member>
+        <member name="M:API.Controllers.CurrencyController.CreateTransaction(Application.CurrencyRate.DTO.ExchangeDto)">
+             <summary>
+             Creates a transaction.
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST /create-transaction
+                 {
+                    "fromCurrency": GEL,
+                    "toCurrency": "USD",
+                    "amountFrom": "100",
+                    "personalNumber": "0101..",
+                 }
+            
+             </remarks>
+             <response code="200">Returns the newly created item</response>
+             <response code="400">Please fill information about Customer</response>
+             <response code="400">Failed to create transaction, your limit is reached</response>
+             <response code="400">Failed to create transaction</response>
+        </member>
+        <member name="T:API.Controllers.CustomerController">
+            <summary>
+            Customer Controller
+            </summary>
+        </member>
+        <member name="M:API.Controllers.CustomerController.CreateCustomer(Application.Customer.DTO.CreateCustomerDto)">
+             <summary>
+             Creates a customer.
+             </summary>
+             <param name="PersonalNumber">PersonalNumber</param>
+             <param name="FirstName">FirstName</param>
+             <param name="LastName">LastName</param>
+             <param name="RecommenderPersonalNumber">RecommenderPersonalNumber</param>
+             <remarks>
+             Sample request:
+            
+                 POST /customer
+                 {
+                    "personalNumber": "0101..",
+                    "firstName": "James",
+                    "lastName": "Bond",
+                    "recommenderPersonalNumber": "0101.."
+                 }
+            
+             </remarks>
+             <response code="200">Returns Success</response>
+             <response code="400">Customer with entered Private Number already exists</response>
+        </member>
+        <member name="T:API.Controllers.ReportController">
+            <summary>
+            Report Controller
+            </summary>
+        </member>
+        <member name="M:API.Controllers.ReportController.GetReport(Application.Report.DTO.GetReportDto)">
+            <summary>
+            Get Report.
+            </summary>
+            
+            {
+             "personalNumber": "string",
+             "startDate": "2022-06-12T17:50:21.843Z",
+             "endDate": "2022-06-12T17:50:21.843Z"
+            }
+            
+            <param name="startDate">Start Date</param>
+            <param name="endDate">End Date</param>
+            <response code="200">Returns Report</response>
+        </member>
+    </members>
+</doc>
