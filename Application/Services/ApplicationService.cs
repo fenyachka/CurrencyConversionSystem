@@ -60,7 +60,7 @@ namespace Application.Services
                 foreach (var c in customers)
                 {
                     dailyLimit += await GetDailyTransactionAmount(c.Item.PersonalNumber, DateTime.Now);
-                    CalculateDailyLimit(c.Children, deep + 1);
+                    await CalculateDailyLimit(c.Children, deep + 1);
                 }
             }
             return false;
@@ -104,7 +104,7 @@ namespace Application.Services
             foreach (var c in customers)
             {
                 allTransactionCount += await GetDailyTransactionCount(c.Item.PersonalNumber, fromDate, toDate);
-                AllTransactionCount(c.Children, fromDate, toDate, deep + 1);
+                await AllTransactionCount(c.Children, fromDate, toDate, deep + 1);
             }
 
             return allTransactionCount;
