@@ -2,6 +2,9 @@
 using System.Threading.Tasks;
 using Application.Currency;
 using Application.Currency.DTO;
+using Application.CurrencyRate;
+using Application.CurrencyRate.DTO;
+using Domain.Entities.Currencies;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -60,6 +63,49 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Create.Command { CreateCurrencyDto = dto }));
         }
+        #endregion
+        
+        #region currency rate
+        
+        
+        /// <summary>
+        /// Get currency rate
+        /// </summary>
+        /// <param name="code">Currency Code</param>
+        /// <returns/>Last updated currency rate object/returns>
+        /// <response code="200">Returns Success, Currency Rate object</response>
+        /// <response code="400">If the item is null, returns Failure object with message</response>
+        [HttpGet("rate")]
+        public async Task<ActionResult<CurrencyRate>> GetCurrencyRate([FromQuery] string code)
+        {
+            return HandleResult(await Mediator.Send(new GetCurrencyRate.Query { CurrencyCode = code }));
+        }
+        
+        /// <summary>
+        /// Creates a currency rate.
+        /// </summary>
+        /// <param name="currencyId">currencyId</param>
+        /// <param name="buy">buy</param>
+        /// <param name="sell">sell</param>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /rate
+        ///     {
+        ///        "currencyId": 2,
+        ///        "buy": "3.12",
+        ///        "sell": "3.10"
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="200">Returns Success</response>
+        /// <response code="400">Currency Rate already exist.</response>
+        [HttpPost("rate")]
+        public async Task<IActionResult> CreateCurrencyRate(CreateCurrencyRateDto dto)
+        {
+            return HandleResult(await Mediator.Send(new CreateCurrencyRate.Command { CreateCurrencyRateDto = dto }));
+        }
+
         #endregion
     }
 }
