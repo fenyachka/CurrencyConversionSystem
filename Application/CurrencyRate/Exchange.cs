@@ -10,6 +10,7 @@ using Domain.Entities.Transaction;
 using Domain.Interfaces;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Options;
 
 namespace Application.CurrencyRate
 {
@@ -31,11 +32,13 @@ namespace Application.CurrencyRate
         {
             private readonly IApplicationService _applicationService;
             private readonly IUnitOfWork _unitOfWork;
+            private readonly AmountConfiguration _amountConfiguration;
 
-            public Handler(IApplicationService applicationService, IUnitOfWork unitOfWork)
+            public Handler(IApplicationService applicationService, IUnitOfWork unitOfWork, IOptions<AmountConfiguration> amountConfiguration)
             {
                 _applicationService = applicationService;
                 _unitOfWork = unitOfWork;
+                _amountConfiguration = amountConfiguration.Value;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
@@ -50,7 +53,7 @@ namespace Application.CurrencyRate
                 
                 var amountTo = currencyRateFrom.Sell / currencyRateTo.Buy * request.ExchangeDto.AmountFrom;
 
-                if (amountTo > 3000)
+                if (amountTo > _amountConfiguration.CheckPersonAmount)
                 {
                     var customer = await _applicationService.GetCustomer(request.ExchangeDto.PersonalNumber);
 
