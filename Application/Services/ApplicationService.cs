@@ -19,6 +19,7 @@ namespace Application.Services
         private readonly IConfiguration _configuration;
         private readonly AmountConfiguration _amountConfiguration;
         decimal dailyLimit = 0;
+        private int allTransactionCount = 0;
         
         public ApplicationService(IUnitOfWork unitOfWork, IConfiguration configuration, IOptions<AmountConfiguration> amountConfiguration)
         {
@@ -37,7 +38,7 @@ namespace Application.Services
             return currencyRate;
         }
 
-        public async Task<List<Customer>> GetCustomers()
+        public async Task<List<Domain.Entities.Customer.Customer>> GetCustomers()
         {
             return await _unitOfWork.Customer.TableNoTracking.ToListAsync();
         } 
@@ -82,5 +83,32 @@ namespace Application.Services
 
             return amount;
         }
+        
+        public async Task<int> GetDailyTransactionCount(string personalNumber, DateTime? fromDate, DateTime? toDate)
+        {
+            var transactionCount =  _unitOfWork.Transaction.TableNoTracking
+                .Where(t => t.PersonalNumber == personalNumber);
+
+            if (fromDate != null)
+                transactionCount.Where(t => t.TimeStamp > fromDate);
+            
+            if (toDate != null)
+                transactionCount.Where(t => t.TimeStamp < toDate);
+            
+            return await transactionCount.CountAsync();
+        }
+        
+        public async Task<int> AllTransactionCount(IEnumerable<TreeItem<Domain.Entities.Customer.Customer>> customers,
+            DateTime? fromDate, DateTime? toDate, int deep = 0)
+        {
+            foreach (var c in customers)
+            {
+                allTransactionCount += await GetDailyTransactionCount(c.Item.PersonalNumber, fromDate, toDate);
+                AllTransactionCount(c.Children, fromDate, toDate, deep + 1);
+            }
+
+            return allTransactionCount;
+        }
+
     }
 }
