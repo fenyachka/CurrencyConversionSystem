@@ -22,6 +22,7 @@ namespace Infrastructure.Config
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             modelBuilder.Entity<Customer>().HasIndex(e => e.PersonalNumber);
             modelBuilder.Entity<Transaction>().HasIndex(e => e.PersonalNumber);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }

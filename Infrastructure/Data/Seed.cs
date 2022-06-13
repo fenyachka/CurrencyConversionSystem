@@ -35,27 +35,35 @@ namespace Infrastructure.Config
                 }
             };
             await context.Currencies.AddRangeAsync(currencies);
-            await context.SaveChangesAsync();
             
             if (context.CurrencyRates.Any()) return;
             var currencyRates = new List<CurrencyRate>()
             {
                 new CurrencyRate
                 {
-                    Currency = currencies[2],
+                    Currency =  new Currency
+                    {
+                        Code = "USD",
+                        NameGeo = "დოლარი",
+                        NameLat = "Dollar"
+                    },
                     Buy = (decimal) 3.12,
                     Sell = (decimal) 3.10
                 },
                 new CurrencyRate
                 {
-                    Currency = currencies[3],
+                    Currency = new Currency
+                    {
+                        Code = "EUR",
+                        NameGeo = "ევრო",
+                        NameLat = "Euro"
+                    },
                     Buy = (decimal) 3.42,
                     Sell = (decimal) 3.22
                 }
             };
             
             await context.CurrencyRates.AddRangeAsync(currencyRates);
-            await context.SaveChangesAsync();
             
             if (context.Customers.Any()) return;
             var customers = new List<Customer>()
@@ -65,28 +73,28 @@ namespace Infrastructure.Config
                     Id = new Guid(),
                     FirstName = "root",
                     LastName = "root",
-                    PersonalNumber = "-1"
+                    PersonalNumber = "00000000011",
+                    RecommenderPersonalNumber = "00000000111"
                 },
                 new Customer
                 {
                     Id = new Guid(),
                     FirstName = "James",
                     LastName = "Bond",
-                    PersonalNumber = "000000000000",
-                    RecommenderPersonalNumber = "-1"
+                    PersonalNumber = "00000000000",
+                    RecommenderPersonalNumber = "00000000011"
                 },
                 new Customer
                 {
                     Id = new Guid(),
                     FirstName = "Ana",
                     LastName = "Clarcke",
-                    PersonalNumber = "000000000001",
-                    RecommenderPersonalNumber = "000000000000"
+                    PersonalNumber = "00000000001",
+                    RecommenderPersonalNumber = "00000000000"
                 }
             };
             
             await context.Customers.AddRangeAsync(customers);
-            await context.SaveChangesAsync();
             
             
             if (context.Transactions.Any()) return;
@@ -98,7 +106,7 @@ namespace Infrastructure.Config
                     ToAmount = 6,
                     FromCurrency = "USD",
                     ToCurrency = "GEL",
-                    PersonalNumber = "000000000000",
+                    PersonalNumber = "00000000000",
                     TimeStamp = Convert.ToDateTime("2022-06-12 13:30:00.0000000")
                 },
                 new Transaction
@@ -107,7 +115,7 @@ namespace Infrastructure.Config
                     ToAmount = 9,
                     FromCurrency = "USD",
                     ToCurrency = "GEL",
-                    PersonalNumber = "000000000001",
+                    PersonalNumber = "00000000001",
                     TimeStamp = Convert.ToDateTime("2022-06-12 13:30:00.0000000")
                 }
             };
