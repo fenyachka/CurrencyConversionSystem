@@ -137,10 +137,10 @@ namespace API.Controllers
         ///
         ///     POST /create-transaction
         ///     {
-        ///        "fromCurrency": GEL,
+        ///        "fromCurrency": "GEL",
         ///        "toCurrency": "USD",
         ///        "amountFrom": "100",
-        ///        "personalNumber": "0101..",
+        ///        "personalNumber": "0101.."
         ///     }
         ///
         /// </remarks>

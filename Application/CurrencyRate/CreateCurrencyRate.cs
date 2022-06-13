@@ -38,7 +38,7 @@ namespace Application.CurrencyRate
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var existingCheck = _unitOfWork.CurrencyRate.TableNoTracking.FirstOrDefault();
+                var existingCheck = _unitOfWork.CurrencyRate.TableNoTracking.FirstOrDefault(c => c.Currency.Id == request.CreateCurrencyRateDto.CurrencyId);
 
                 if (existingCheck != null)
                 {

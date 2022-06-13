@@ -60,7 +60,7 @@ namespace Application.Report
                 {
                     PersonalNumber = request.GetReportDto.PersonalNumber,
                     TransactionCount = transactionCount,
-                    AllTransactionCount = allTransactionCount
+                    AllTransactionCount = allTransactionCount + transactionCount
                 });
             }
         }
