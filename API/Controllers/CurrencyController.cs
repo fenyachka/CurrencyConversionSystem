@@ -107,5 +107,51 @@ namespace API.Controllers
         }
 
         #endregion
+        
+        #region exchange
+        /// <summary>
+        /// Get exchange rate
+        /// </summary>
+        /// <param name="from">From Currency</param>
+        /// <param name="to">To Currency</param>
+        /// <param name="amount">Amount From</param>
+        /// <returns/>Last updated currency rate object/returns>
+        /// <response code="200">Returns CurrencyRateWithAmount object</response>
+        /// <response code="400">If the item is null, returns Failure object with message</response>
+        [HttpGet("exchange-rate")]
+        public async Task<ActionResult<ExchangeRate>> GetExchangeRate([FromQuery] ExchangeRateDto exchangeRateDto)
+        {
+            return HandleResult(await Mediator.Send(new ExchangeRate.Query { ExchangeRateDto = exchangeRateDto}));
+        }
+        
+        
+        
+        /// <summary>
+        /// Creates a transaction.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /create-transaction
+        ///     {
+        ///        "fromCurrency": GEL,
+        ///        "toCurrency": "USD",
+        ///        "amountFrom": "100",
+        ///        "personalNumber": "0101..",
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="200">Returns the newly created item</response>
+        /// <response code="400">Please fill information about Customer</response>
+        /// <response code="400">Failed to create transaction, your limit is reached</response>
+        /// <response code="400">Failed to create transaction</response>
+        [HttpPost("exchange")]
+        public async Task<IActionResult> CreateTransaction(ExchangeDto dto)
+        {
+            return HandleResult(await Mediator.Send(new Exchange.Command { ExchangeDto = dto }));
+        }
+        
+        
+        #endregion
     }
 }
