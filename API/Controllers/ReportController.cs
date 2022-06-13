@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Report Controller
+    /// </summary>
     public class ReportController : BaseApiController
     {
         /// <summary>

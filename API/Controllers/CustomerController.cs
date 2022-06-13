@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    /// <summary>
+    /// Customer Controller
+    /// </summary>
     public class CustomerController : BaseApiController
     {
         /// <summary>
